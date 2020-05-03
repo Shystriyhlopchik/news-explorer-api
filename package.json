@@ -1,0 +1,19 @@
+{
+  "name": "news-explorer-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shystriyhlopchik/news-explorer-api.git"
+  },
+  "author": "Dimka Andreev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shystriyhlopchik/news-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Shystriyhlopchik/news-explorer-api#readme"
+}
