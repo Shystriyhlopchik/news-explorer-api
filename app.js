@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const routes = require('./routes/index');
+const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 const { createUser, login } = require('./conrollers/users');
@@ -21,6 +22,7 @@ mongoose.connect('mongodb://localhost:27017/explorer-api', {
 
 app.post('/signup', createUser);
 app.post('/signin', login);
+app.use(auth);
 app.use('/app', routes);
 
 app.listen(PORT, () => {
