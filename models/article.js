@@ -35,16 +35,16 @@ const articleSchema = new mongoose.Schema({
     require: true,
     validate: {
       validator(img) {
-        this.validator(img) {
-          return this.validator.isURL(img);
-        }
-      }
-    }
+        return this.validator.isURL(img);
+      },
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     require: true,
     select: false,
-  }
+  },
 });
+
+module.exports = mongoose.model('article', articleSchema);
