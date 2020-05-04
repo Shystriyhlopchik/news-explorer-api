@@ -1,4 +1,8 @@
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
+
+const { JWT_SECRET } = require('../appconfig');
 
 // возвращает всех пользователей из БД
 module.exports.getUsers = (async (req, res) => {
