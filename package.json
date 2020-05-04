@@ -2,18 +2,30 @@
   "name": "news-explorer-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shystriyhlopchik/news-explorer-api.git"
   },
-  "author": "Dimka Andreev",
+  "author": "Dimka Andreev <Shystriyhlopchik@yandex.ru>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Shystriyhlopchik/news-explorer-api/issues"
   },
-  "homepage": "https://github.com/Shystriyhlopchik/news-explorer-api#readme"
+  "homepage": "https://github.com/Shystriyhlopchik/news-explorer-api#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.11",
+    "validator": "^13.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "nodemon": "^2.0.3"
+  }
 }
