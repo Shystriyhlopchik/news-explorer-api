@@ -1,19 +1,24 @@
-const express = require('express');
+const router = require('express').Router();
+const bodyParser = require('body-parser');
 
-const appRouter = require('express').Router();
 const users = require('./users');
 const articles = require('./articles');
+const auth = require('../middlewares/auth');
+const { createUser, login } = require('../conrollers/users');
+const { userValidator } = require('../middlewares/validation');
 
-const app = express();
 
-// роутер
-appRouter
+router.use(bodyParser.json()); // для собирания JSON-формата
+router.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
+// роут
+router
+  .use('/signup', userValidator, createUser)
+  .use('/signin', userValidator, login)
+  .use(auth)
   .use('/users', users)
   .use('/articles', articles)
   .use('*', (req, res) => {
     res.send('404 Not Found');
   });
 
-app.use('/app', appRouter);
-
-module.exports = appRouter;
+module.exports = router;

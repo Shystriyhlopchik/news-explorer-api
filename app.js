@@ -1,31 +1,24 @@
+// const router = require('express').Router();
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+// const bodyParser = require('body-parser');
+// const cookieParser = require('cookie-parser');
+// const helmet = require('helmet');
+// const { errors } = require('celebrate');
 
 const routes = require('./routes/index');
-const auth = require('./middlewares/auth');
-
-const { PORT = 3000 } = process.env;
-const { createUser, login } = require('./conrollers/users');
+// const auth = require('./middlewares/auth');
+// const { PORT = 3000 } = process.env;
+const { connectToMongoDB, PORT } = require('./appconfig');
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-mongoose.connect('mongodb://localhost:27017/explorer-api', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
-
-app.post('/signup', createUser);
-app.post('/signin', login);
-app.use(auth);
-app.use('/app', routes);
+connectToMongoDB(); // подключение к MongoDB
+app.use(cookieParser());
+app.use(routes);
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
   console.log(`App listening on port ${PORT}`);
 });
+//  app.use('/app', appRouter);

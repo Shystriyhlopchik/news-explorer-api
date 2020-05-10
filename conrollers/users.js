@@ -1,26 +1,34 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
+const User = require('../models/user');
 
 const { JWT_SECRET } = require('../appconfig');
 
-// возвращает всех пользователей из БД
-module.exports.getUsers = (async (req, res) => {
+// возвращаем информацию о пользователе
+module.exports.getUsersMe = (async (req, res, next) => {
   try {
-    const users = await User.find({});
-    res.send({ data: users });
+    const dataMe = await User.findById(req.user._id);
+    res.send({
+      data: {
+        name: dataMe.name,
+        email: dataMe.email,
+      },
+    }).status(200);
   } catch (e) {
-    res.send(e);
+    next(e);
   }
 });
 
+// создаем пользователя
 module.exports.createUser = (async (req, res) => {
   try {
     const {
       name, email, password,
     } = req.body;
+    const hash = await bcrypt.hash(password, 10);
     const user = await User.create({
-      name, email, password,
+      name, email, password: hash,
     });
     res.status(201).send({
       data: {
@@ -30,10 +38,12 @@ module.exports.createUser = (async (req, res) => {
       },
     });
   } catch (e) {
-    require.dend(e);
+    res.send(e);
   }
 });
 
+
+// авторизация
 module.exports.login = (async (req, res) => {
   try {
     const { email, password } = req.body;

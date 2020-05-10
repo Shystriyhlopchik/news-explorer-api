@@ -1,12 +1,8 @@
-const usersRouter = require('express').Router();
-const express = require('express');
+const router = require('express').Router();
+const { getUsersMe } = require('../conrollers/users');
 
-const app = express();
 
-const { getUsers } = require('../conrollers/users');
+// возврвращаем информацию о пользователе
+router.get('/me', getUsersMe);
 
-usersRouter.get('/me', getUsers);// возврврат всех пользователей
-
-app.use('/app/users', usersRouter);
-
-module.exports = usersRouter;
+module.exports = router;

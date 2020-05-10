@@ -1,6 +1,6 @@
 const Articles = require('../models/user');
 
-// возвращает всех пользователей
+// возвращает все статьи
 module.exports.getArticles = (async (req, res) => {
   try {
     const articles = await Articles.find({});
@@ -29,7 +29,7 @@ module.exports.createArticle = (async (req, res) => {
 module.exports.deleteArticle = (async (req, res) => {
   try {
     const article = await Articles.findById(req.params.id);
-    if ((!article) && (!article.owner.equals(req.user._id))) { // проверка наличия удаляемой карты
+    if ((!article) && (!article.owner.equals(req.user._id))) { // проверка наличия карты и автора
       // throw new NotFoundError('404 Not Found');
       throw new Error('404 Not Found');
     }
