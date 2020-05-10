@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const rateLimit = require('express-rate-limit');
+const rateLimit = require('express-rate-limit');
 
 const PORT = process.env.PORT || 3000;
 
@@ -20,15 +20,15 @@ const connectToMongoDB = (async () => {
   }
 });
 
-// const rateLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // timeframe for which requests are checked/remebered: 15 minutes
-//   max: 50, // limit each IP to 50 requests per windowMs
-//   message: 'Please try again later',
-// });
+const rateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // timeframe for which requests are checked/remebered: 15 minutes
+  max: 50, // limit each IP to 50 requests per windowMs
+  message: 'Please try again later',
+});
 
 module.exports = {
   PORT,
   JWT_SECRET,
   connectToMongoDB,
-  // rateLimiter,
+  rateLimiter,
 };

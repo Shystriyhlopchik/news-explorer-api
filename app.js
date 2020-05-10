@@ -9,16 +9,14 @@ const cookieParser = require('cookie-parser');
 const routes = require('./routes/index');
 // const auth = require('./middlewares/auth');
 // const { PORT = 3000 } = process.env;
-const { connectToMongoDB, PORT } = require('./appconfig');
+const { connectToMongoDB, PORT, limiter } = require('./appconfig');
 
 const app = express();
 
 connectToMongoDB(); // подключение к MongoDB
 app.use(cookieParser());
 app.use(routes);
-
+app.use(limiter);
 app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
   console.log(`App listening on port ${PORT}`);
 });
-//  app.use('/app', appRouter);
