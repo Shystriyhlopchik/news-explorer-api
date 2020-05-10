@@ -3,22 +3,30 @@ const mongoose = require('mongoose');
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
+    minlength: 2,
+    maxlength: 30,
     require: true,
   },
   title: {
     type: String,
+    minlength: 2,
+    maxlength: 30,
     require: true,
   },
   text: {
     type: String,
+    minlength: 2,
     require: true,
   },
   date: {
     type: Date,
+    minlength: 2,
     require: true,
   },
   source: {
     type: String,
+    minlength: 2,
+    maxlength: 30,
     require: true,
   },
   link: {

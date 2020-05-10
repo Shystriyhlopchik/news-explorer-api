@@ -5,7 +5,7 @@ const users = require('./users');
 const articles = require('./articles');
 const auth = require('../middlewares/auth');
 const { createUser, login } = require('../conrollers/users');
-const { userValidator } = require('../middlewares/validation');
+const { userValidator, loginValidator } = require('../middlewares/validation');
 
 
 router.use(bodyParser.json()); // для собирания JSON-формата
@@ -13,7 +13,7 @@ router.use(bodyParser.urlencoded({ extended: true })); // для приёма в
 // роут
 router
   .use('/signup', userValidator, createUser)
-  .use('/signin', userValidator, login)
+  .use('/signin', loginValidator, login)
   .use(auth)
   .use('/users', users)
   .use('/articles', articles)
