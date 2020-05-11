@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 
 const { error } = require('./middlewares/error');
 const routes = require('./routes/index');
-const { connectToMongoDB, PORT, rateLimiter } = require('./appconfig');
+const { PORT, rateLimiter } = require('./appconfig');
+const { connectToMongoDB } = require('./tools/connectToMongo');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();

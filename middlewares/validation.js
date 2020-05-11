@@ -45,15 +45,15 @@ module.exports.loginValidator = celebrate({
 // валидация создаваемой карточки
 module.exports.createArticleValidation = celebrate({
   body: Joi.object().keys({
-    keyword: Joi.string().required().min(2).max(30)
+    keyword: Joi.string().required().min(2)
       .error(errorsMessage.keyword),
-    title: Joi.string().required().min(2).max(30)
+    title: Joi.string().required().min(2)
       .error(errorsMessage.title),
     text: Joi.string().required().min(2)
       .error(errorsMessage.text),
     date: Joi.date().iso().required()
       .error(errorsMessage.date),
-    source: Joi.string().required().min(2).max(30)
+    source: Joi.string().required().min(2)
       .error(errorsMessage.source),
     link: Joi.string().required().uri()
       .error(errorsMessage.link),
