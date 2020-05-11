@@ -31,7 +31,9 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (link) => validator.isURL(link),
+      validator: (link) => validator.isURL(link, {
+        protocols: ['http', 'https'], require_tld: true, require_protocol: true, require_host: true, require_valid_protocol: true, allow_underscores: true, disallow_auth: true,
+      }),
       message: 'Validation error link',
     },
   },
@@ -39,7 +41,9 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (link) => validator.isURL(link),
+      validator: (link) => validator.isURL(link, {
+        protocols: ['http', 'https'], require_tld: true, require_protocol: true, require_host: true, require_valid_protocol: true, allow_underscores: true, disallow_auth: true,
+      }),
       message: 'Validation error image',
     },
   },
