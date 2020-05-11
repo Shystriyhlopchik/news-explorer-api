@@ -11,12 +11,14 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 
 connectToMongoDB(); // подключение к MongoDB
+
 app.use(helmet());
 app.use(requestLogger); // логгер запросов
 app.use(cookieParser());
-app.use(routes);
-app.use(rateLimiter);
 
+app.use(routes); // вызов роута
+
+app.use(rateLimiter);
 // обработка ошибок
 app.use(errorLogger) // подключаем логгер ошибок
   .use(errors()) // обработчик ошибок celebrate
@@ -24,5 +26,3 @@ app.use(errorLogger) // подключаем логгер ошибок
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
-
-module.exports = app;
