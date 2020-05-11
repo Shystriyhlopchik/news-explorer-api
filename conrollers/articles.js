@@ -32,7 +32,7 @@ module.exports.createArticle = (async (req, res, next) => {
 // удаление статьи владельца
 module.exports.deleteArticle = (async (req, res, next) => {
   try {
-    const article = await Articles.findById(req.params.id);
+    const article = await (Articles.findById(req.params.id).select('+owner'));
     if (!article) {
       return next(new NotFoundError('Not Found')); // здесь проверка, не удалена ли уже карточка
     }
