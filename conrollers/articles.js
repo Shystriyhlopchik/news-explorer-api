@@ -34,10 +34,10 @@ module.exports.deleteArticle = (async (req, res, next) => {
   try {
     const article = await Articles.findById(req.params.id);
     if (!article) {
-      return next(new NotFoundError('Not Found')); // здесь проверка, не удалена ли уже карточка
+      return next(new NotFoundError('404 Not Found')); // здесь проверка, не удалена ли уже карточка
     }
     if (!article.owner.equals(req.user._id)) {
-      return next(new ForbiddenError('Unauthorized')); // passes the data to errorHandler middleware
+      return next(new ForbiddenError('403 Unauthorized')); // passes the data to errorHandler middleware
     }
     const articleDelete = await Articles.findOneAndRemove(req.params.id);
     return res.status(200).send({ message: 'article deleted:', data: articleDelete });

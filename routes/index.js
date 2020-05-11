@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const bodyParser = require('body-parser');
 
 const users = require('./users');
 const articles = require('./articles');
@@ -8,8 +7,6 @@ const { createUser, login } = require('../conrollers/users');
 const { userValidator, loginValidator } = require('../middlewares/validation');
 const NotFoundError = require('../errors/not-found-err');
 
-router.use(bodyParser.json()); // для собирания JSON-формата
-router.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
 
 // роуты
 router
