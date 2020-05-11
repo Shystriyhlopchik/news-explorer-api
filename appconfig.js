@@ -6,6 +6,8 @@ const { NODE_ENV } = process.env;
 const isProduction = process.env.NODE_ENV === 'production'; // if production, we use secret from env file
 const JWT_SECRET = isProduction ? process.env.JWT_SECRET : 'devSecretKey'; // for dev mode, we use 'devSecretKey'
 
+
+// подключение MongoDB
 const connectToMongoDB = (async () => {
   try {
     await mongoose.connect('mongodb://localhost:27017/explorer-api', {
@@ -20,6 +22,7 @@ const connectToMongoDB = (async () => {
   }
 });
 
+// настройки cookie
 const JWT_COOKIE_OPTIONS = {
   maxAge: 3600000 * 24 * 7,
   httpOnly: true,
