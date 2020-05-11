@@ -1,6 +1,8 @@
+const mongoose = require('mongoose');
+
 const Articles = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
-
+const ForbiddenError = require('../errors/forbidden-err');
 
 // возвращает все статьи пользователя
 module.exports.getArticles = (async (req, res, next) => {
@@ -31,12 +33,18 @@ module.exports.createArticle = (async (req, res, next) => {
 module.exports.deleteArticle = (async (req, res, next) => {
   try {
     const article = await Articles.findById(req.params.id);
-    if ((!article) && (!article.owner.equals(req.user._id))) { // проверка наличия карты и автора
-      throw new NotFoundError('404 Not Found');
+    if (!article) {
+      return next(new NotFoundError('Not Found')); // здесь проверка, не удалена ли уже карточка
+    }
+    if (!article.owner.equals(req.user._id)) {
+      return next(new ForbiddenError('Unauthorized')); // passes the data to errorHandler middleware
     }
     const articleDelete = await Articles.findOneAndRemove(req.params.id);
     return res.status(200).send({ message: 'article deleted:', data: articleDelete });
   } catch (e) {
-    next(e);
+    if (e instanceof mongoose.Error.CastError) {
+      return next(new NotFoundError('404 Not Found'));
+    }
+    return next(e);
   }
 });
