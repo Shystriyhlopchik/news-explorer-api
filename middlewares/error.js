@@ -7,4 +7,5 @@ module.exports.error = ((err, req, res, next) => {
       message,
     },
   });
+  next();
 });
