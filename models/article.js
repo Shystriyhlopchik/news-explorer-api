@@ -1,56 +1,52 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
     minlength: 2,
-    maxlength: 30,
-    require: true,
+    required: true,
   },
   title: {
     type: String,
     minlength: 2,
-    maxlength: 30,
-    require: true,
+    required: true,
   },
   text: {
     type: String,
     minlength: 2,
-    require: true,
+    required: true,
   },
   date: {
     type: Date,
     minlength: 2,
-    require: true,
+    required: true,
   },
   source: {
     type: String,
     minlength: 2,
-    maxlength: 30,
-    require: true,
+    required: true,
   },
   link: {
     type: String,
-    require: true,
+    required: true,
     validate: {
-      validator(link) {
-        return this.validator.isURL(link);
-      },
+      validator: (link) => validator.isURL(link),
+      message: 'Validation error link',
     },
   },
   image: {
     type: String,
-    require: true,
+    required: true,
     validate: {
-      validator(img) {
-        return this.validator.isURL(img);
-      },
+      validator: (link) => validator.isURL(link),
+      message: 'Validation error image',
     },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    require: true,
+    required: true,
     select: false,
   },
 });

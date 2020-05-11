@@ -4,7 +4,7 @@ const { createArticleValidation, idValidation } = require('../middlewares/valida
 
 
 // роуты
-articlesRouter.get('/', getArticles)
+articlesRouter.get('/', idValidation, getArticles)
   .post('/', createArticleValidation, createArticle)
   .delete('/:id', idValidation, deleteArticle);
 

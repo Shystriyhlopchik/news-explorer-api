@@ -1,8 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
-const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const bodyParser = require('body-parser');
 
 const { error } = require('./middlewares/error');
 const routes = require('./routes/index');
@@ -11,13 +13,14 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
+app.use(bodyParser.json()); // для собирания JSON-формата
+app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
+
 connectToMongoDB(); // подключение к MongoDB
 
 app.use(helmet());
 
 // инициализация middlewares
-app.use(bodyParser.json()); // для собирания JSON-формата
-app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
 app.use(requestLogger); // логгер запросов
 app.use(cookieParser());
 app.use(rateLimiter);

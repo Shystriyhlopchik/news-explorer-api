@@ -16,7 +16,7 @@ router
   .use('/users', users)
   .use('/articles', articles)
   .use('*', (req, res, next) => {
-    next(new NotFoundError('404 Not Found'));
+    next(new NotFoundError('Not Found'));
   });
 
 

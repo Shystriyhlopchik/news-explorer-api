@@ -1,11 +1,13 @@
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
-
-const { JWT_SECRET, JWT_COOKIE_OPTIONS } = require('../appconfig');
+const BadRequestError = require('../errors/bad-request-err');
+const { JWT_SECRET } = require('../appconfig');
+const JWT_COOKIE_OPTIONS = require('../appconfig');
 const UnathtorizedError = require('../errors/unauthorized-err');
-
+const ConflictError = require('../errors/conflict-err');
 // возвращаем информацию о пользователе
 module.exports.getUsersMe = (async (req, res, next) => {
   try {
@@ -31,15 +33,21 @@ module.exports.createUser = (async (req, res, next) => {
     const user = await User.create({
       name, email, password: hash,
     });
-    res.status(201).send({
+    return res.status(201).send({
       data: {
         _id: user._id,
         name: user.name,
         email: user.email,
       },
     });
-  } catch (e) {
-    next(e);
+  } catch (err) {
+    if (err.keyValue.email) {
+      next(new ConflictError('Conflict'));
+    }
+    if (err instanceof mongoose.Error.ValidationError) {
+      return next(new BadRequestError(err.message));
+    }
+    return next(err);
   }
 });
 
