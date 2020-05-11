@@ -1,10 +1,12 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
 
 const routes = require('./routes/index');
-const { connectToMongoDB, PORT, limiter } = require('./appconfig');
-const { requestLogger } = require('./middlewares/logger');
+const { error } = require('./middlewares/error');
+const { connectToMongoDB, PORT, rateLimiter } = require('./appconfig');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
@@ -13,7 +15,14 @@ app.use(helmet());
 app.use(requestLogger); // логгер запросов
 app.use(cookieParser());
 app.use(routes);
-app.use(limiter);
+app.use(rateLimiter);
+
+// обработка ошибок
+app.use(errorLogger) // подключаем логгер ошибок
+  .use(errors()) // обработчик ошибок celebrate
+  .use(error);
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
+
+module.exports = app;

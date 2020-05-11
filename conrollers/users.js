@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
 
-const { JWT_SECRET } = require('../appconfig');
+const { JWT_SECRET, JWT_COOKIE_OPTIONS } = require('../appconfig');
+const UnathtorizedError = require('../errors/unauthorized-err');
 
 // возвращаем информацию о пользователе
 module.exports.getUsersMe = (async (req, res, next) => {
@@ -21,7 +22,7 @@ module.exports.getUsersMe = (async (req, res, next) => {
 });
 
 // создаем пользователя
-module.exports.createUser = (async (req, res) => {
+module.exports.createUser = (async (req, res, next) => {
   try {
     const {
       name, email, password,
@@ -38,13 +39,13 @@ module.exports.createUser = (async (req, res) => {
       },
     });
   } catch (e) {
-    res.send(e);
+    next(e);
   }
 });
 
 
 // авторизация
-module.exports.login = (async (req, res) => {
+module.exports.login = (async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findUserByCredentials(email, password);
@@ -53,16 +54,9 @@ module.exports.login = (async (req, res) => {
       JWT_SECRET,
       { expiresIn: '7d' },
     );
-    res.cookie('jwt', token, JWT_SECRET)
-      .cookie({
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        secure: true,
-        sameSite: true,
-      });
+    res.cookie('jwt', token, JWT_COOKIE_OPTIONS);
     res.status(200).send({ token });
   } catch (err) {
-    res.send(err);
-    // next(new UnathtorizedError(err.message));
+    next(new UnathtorizedError(err.message));
   }
 });
