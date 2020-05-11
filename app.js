@@ -3,7 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 // const bodyParser = require('body-parser');
 // const cookieParser = require('cookie-parser');
-// const helmet = require('helmet');
+const helmet = require('helmet');
 // const { errors } = require('celebrate');
 
 const routes = require('./routes/index');
@@ -14,6 +14,7 @@ const { connectToMongoDB, PORT, limiter } = require('./appconfig');
 const app = express();
 
 connectToMongoDB(); // подключение к MongoDB
+app.use(helmet());
 app.use(cookieParser());
 app.use(routes);
 app.use(limiter);
